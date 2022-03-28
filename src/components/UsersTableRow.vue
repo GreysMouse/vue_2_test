@@ -2,13 +2,15 @@
   <tr>
     <td class="field">{{ user.username }}</td>
     <td class="field">{{ user.email }}</td>
-    <td class="field">{{ registerDate }}</td>
+    <td class="field">{{ registrationDate }}</td>
     <td class="field">{{ user.rating }}</td>
     <button>Удалить</button>
   </tr>
 </template>
 
 <script>
+import { getDateFromISO } from "../utils/methods/getDateFromISO";
+
 export default {
   name: "UsersTableRow",
   props: {
@@ -18,14 +20,8 @@ export default {
     },
   },
   computed: {
-    registerDate() {
-      const date = new Date(this.user.registration_date);
-
-      const DD = ("0" + date.getDate()).slice(-2);
-      const MM = ("0" + date.getMonth()).slice(-2);
-      const YY = ("0" + date.getFullYear()).slice(-2);
-
-      return DD + "." + MM + "." + YY;
+    registrationDate() {
+      return getDateFromISO(this.user.registration_date);
     },
   },
 };

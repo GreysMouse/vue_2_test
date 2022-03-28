@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { SORTING_ORDERS, SORTING_TYPES } from "../constants";
 import { usersAPI } from "../utils/APIs/usersAPI";
 import { getSortedUsers } from "../utils/features/getSortedUsers";
 
@@ -12,8 +13,8 @@ export default new Vuex.Store({
     sortedUsers: [],
     filteredUsers: [],
     sorting: {
-      type: "none",
-      direction: "asc",
+      type: SORTING_TYPES.NONE,
+      order: SORTING_ORDERS.NONE,
     },
   },
   getters: {},
@@ -42,7 +43,7 @@ export default new Vuex.Store({
     },
     sortUsers(state, payload) {
       state.sortedUsers = getSortedUsers(state.initialUsers, payload.sorting);
-
+      console.log("here");
       state.filteredUsers = getSortedUsers(
         state.filteredUsers,
         payload.sorting

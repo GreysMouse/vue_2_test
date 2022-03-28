@@ -12,11 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <users-table-row
-        v-for="user in displayedUsers"
-        :key="user.id"
-        :user="user"
-      />
+      <users-table-row v-for="user in users" :key="user.id" :user="user" />
     </tbody>
   </table>
 </template>
@@ -30,14 +26,13 @@ export default {
     UsersTableRow,
   },
   computed: {
-    displayedUsers() {
-      return this.filteredUsers.length ? this.filteredUsers : this.sortedUsers;
-    },
-    sortedUsers() {
-      return this.$store.state.sortedUsers;
-    },
-    filteredUsers() {
-      return this.$store.state.filteredUsers;
+    users() {
+      // const sortedUsers = this.$store.state.sortedUsers;
+      // const filteredUsers = this.$store.state.filteredUsers;
+
+      return this.$store.state.filteredUsers.length
+        ? this.$store.state.filteredUsers
+        : this.$store.state.sortedUsers;
     },
   },
 };

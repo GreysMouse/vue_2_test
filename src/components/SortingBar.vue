@@ -4,7 +4,7 @@
     <ul class="list">
       <li>
         <label>
-          <button @click="sortUsersByRegistrationrDate" />
+          <button @click="sortUsersByRegisterDate" />
           Дата регистрации
         </label>
       </li>
@@ -19,6 +19,9 @@
 </template>
 
 <script>
+import { SORTING_ORDERS, SORTING_TYPES } from "../constants";
+import { getUpdatedSorting } from "../utils/features/getUpdatedSorting";
+
 export default {
   name: "SortingBar",
   computed: {
@@ -28,57 +31,35 @@ export default {
   },
   methods: {
     sortUsersByRating() {
-      const newSorting = { type: "rating", direction: "asc" };
-
-      if (
-        this.currentSorting.type === "rating" &&
-        this.currentSorting.direction === "asc"
-      ) {
-        newSorting.direction = "desc";
-      } else if (
-        this.currentSorting.type === "rating" &&
-        this.currentSorting.direction === "desc"
-      ) {
-        newSorting.direction = "asc";
-      } else {
-        newSorting.direction = "desc";
-      }
+      const updatedSorting = getUpdatedSorting(this.currentSorting, {
+        type: SORTING_TYPES.RATING,
+        order: SORTING_ORDERS.NONE,
+      });
 
       this.$store.commit({
         type: "sortUsers",
-        sorting: newSorting,
+        sorting: updatedSorting,
       });
 
       this.$store.commit({
         type: "setSorting",
-        sorting: newSorting,
+        sorting: updatedSorting,
       });
     },
-    sortUsersByRegistrationrDate() {
-      const newSorting = { type: "registrationDate", direction: "asc" };
-
-      if (
-        this.currentSorting.type === "registrationDate" &&
-        this.currentSorting.direction === "asc"
-      ) {
-        newSorting.direction = "desc";
-      } else if (
-        this.currentSorting.type === "registrationDate" &&
-        this.currentSorting.direction === "desc"
-      ) {
-        newSorting.direction = "asc";
-      } else {
-        newSorting.direction = "desc";
-      }
+    sortUsersByRegisterDate() {
+      const updatedSorting = getUpdatedSorting(this.currentSorting, {
+        type: SORTING_TYPES.REGISTER_DATE,
+        order: SORTING_ORDERS.NONE,
+      });
 
       this.$store.commit({
         type: "sortUsers",
-        sorting: newSorting,
+        sorting: updatedSorting,
       });
 
       this.$store.commit({
         type: "setSorting",
-        sorting: newSorting,
+        sorting: updatedSorting,
       });
     },
   },

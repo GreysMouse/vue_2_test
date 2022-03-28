@@ -1,17 +1,18 @@
-import { compareObjectsByISODate } from "../methods/compareObjectsByISODate";
+import { SORTING_TYPES } from "../../constants";
 import { compareObjectsByNumber } from "../methods/comapreObjectsByNumber";
+import { compareObjectsByISODate } from "../methods/compareObjectsByISODate";
 
 export const getSortedUsers = (users, sorting) => {
   switch (sorting.type) {
-    case "none":
+    case SORTING_TYPES.NONE:
       return users;
-    case "registrationDate":
+    case SORTING_TYPES.REGISTER_DATE:
       return users.sort((a, b) =>
-        compareObjectsByISODate(a, b, sorting.type, sorting.direction)
+        compareObjectsByISODate(a, b, sorting.type, sorting.order)
       );
-    case "rating":
+    case SORTING_TYPES.RATING:
       return users.sort((a, b) =>
-        compareObjectsByNumber(a, b, sorting.type, sorting.direction)
+        compareObjectsByNumber(a, b, sorting.type, sorting.order)
       );
     default:
       return users;

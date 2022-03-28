@@ -1,4 +1,4 @@
-export function getDateFromISO(isoTime) {
+export const getDateFromISO = (isoTime) => {
   const date = new Date(isoTime);
 
   const DD = ("0" + date.getDate()).slice(-2);
@@ -6,4 +6,4 @@ export function getDateFromISO(isoTime) {
   const YY = ("0" + date.getFullYear()).slice(-2);
 
   return DD + "." + MM + "." + YY;
-}
+};
