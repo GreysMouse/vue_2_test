@@ -4,6 +4,7 @@
     <search-bar />
     <sorting-bar />
     <users-table />
+    <users-pages-bar />
   </section>
 </template>
 
@@ -11,6 +12,7 @@
 import SearchBar from "./SearchBar.vue";
 import SortingBar from "./SortingBar.vue";
 import UsersTable from "./UsersTable.vue";
+import UsersPagesBar from "./UsersPagesBar.vue";
 
 export default {
   name: "UsersSection",
@@ -18,6 +20,7 @@ export default {
     SearchBar,
     SortingBar,
     UsersTable,
+    UsersPagesBar,
   },
   created() {
     this.$store.dispatch("getUsers");

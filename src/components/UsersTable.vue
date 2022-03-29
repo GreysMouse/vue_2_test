@@ -12,12 +12,17 @@
       </tr>
     </thead>
     <tbody>
-      <users-table-row v-for="user in users" :key="user.id" :user="user" />
+      <users-table-row
+        v-for="user in usersOnPage"
+        :key="user.id"
+        :user="user"
+      />
     </tbody>
   </table>
 </template>
 
 <script>
+import { USERS_TABLE_PAGINATION_STEP } from "@/config";
 import UsersTableRow from "./UsersTableRow.vue";
 
 export default {
@@ -27,12 +32,21 @@ export default {
   },
   computed: {
     inSearching() {
-      return !!this.$store.state.searchQuery;
+      return !!this.$store.state.users.searchQuery;
+    },
+    page() {
+      return this.$store.state.users.tablePage;
     },
     users() {
       return this.inSearching
-        ? this.$store.state.filteredUsers
-        : this.$store.state.sortedUsers;
+        ? this.$store.state.users.filteredUsers
+        : this.$store.state.users.sortedUsers;
+    },
+    usersOnPage() {
+      const sliceStart = (this.page - 1) * USERS_TABLE_PAGINATION_STEP;
+      const sliceEnd = this.page * USERS_TABLE_PAGINATION_STEP;
+
+      return this.users.slice(sliceStart, sliceEnd);
     },
   },
 };

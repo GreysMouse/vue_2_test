@@ -26,7 +26,6 @@ export default {
   },
   methods: {
     handleUserDelete() {
-      console.log("wdwd");
       this.$store.commit({
         type: "deleteUser",
         userId: this.user.id,

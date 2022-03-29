@@ -36,7 +36,7 @@ export default {
   name: "SortingBar",
   computed: {
     currentSorting() {
-      return this.$store.state.sorting;
+      return this.$store.state.users.sorting;
     },
     isRegiserDateSortingActive() {
       return this.currentSorting.type === SORTING_TYPES.REGISTER_DATE;
