@@ -26,11 +26,11 @@ export default {
     UsersTableRow,
   },
   computed: {
+    inSearching() {
+      return !!this.$store.state.searchQuery;
+    },
     users() {
-      // const sortedUsers = this.$store.state.sortedUsers;
-      // const filteredUsers = this.$store.state.filteredUsers;
-
-      return this.$store.state.filteredUsers.length
+      return this.inSearching
         ? this.$store.state.filteredUsers
         : this.$store.state.sortedUsers;
     },

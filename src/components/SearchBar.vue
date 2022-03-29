@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <form class="form" @submit.prevent="submitSearch">
+    <form class="form" @submit.prevent="handleSearchSubmit">
       <button class="search-button" type="submit">Поиск</button>
       <input
         class="search-input"
@@ -8,7 +8,9 @@
         placeholder="Поиск по имени или e-mail"
       />
     </form>
-    <button class="clear-button">Очистить фильтр</button>
+    <button class="clear-button" @click="handleFiltersClear">
+      Очистить фильтр
+    </button>
   </div>
 </template>
 
@@ -21,11 +23,19 @@ export default {
     };
   },
   methods: {
-    submitSearch() {
+    handleSearchSubmit() {
       this.$store.commit({
         type: "searchUsers",
         searchQuery: this.searchQuery,
       });
+
+      this.$store.commit({
+        type: "setSearchQuery",
+        searchQuery: this.searchQuery,
+      });
+    },
+    handleFiltersClear() {
+      this.$store.commit({ type: "clearFilters" });
     },
   },
 };

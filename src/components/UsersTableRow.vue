@@ -4,7 +4,7 @@
     <td class="field">{{ user.email }}</td>
     <td class="field">{{ registrationDate }}</td>
     <td class="field">{{ user.rating }}</td>
-    <button>Удалить</button>
+    <button @click="handleUserDelete">Удалить</button>
   </tr>
 </template>
 
@@ -22,6 +22,15 @@ export default {
   computed: {
     registrationDate() {
       return getDateFromISO(this.user.registration_date);
+    },
+  },
+  methods: {
+    handleUserDelete() {
+      console.log("wdwd");
+      this.$store.commit({
+        type: "deleteUser",
+        userId: this.user.id,
+      });
     },
   },
 };

@@ -1,11 +1,11 @@
 export const SORTING_TYPES = {
-  NONE: 0,
-  RATING: 1,
-  REGISTER_DATE: 2,
+  NONE: "sort_type_none",
+  RATING: "sort_type_rating",
+  REGISTER_DATE: "sort_type_regdate",
 };
 
 export const SORTING_ORDERS = {
-  NONE: 0,
-  ASC: 1,
-  DESC: 2,
+  NONE: "sort_order_none",
+  ASC: "sort_order_asc",
+  DESC: "sort_order_desc",
 };

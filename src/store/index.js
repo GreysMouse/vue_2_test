@@ -12,6 +12,7 @@ export default new Vuex.Store({
     initialUsers: [],
     sortedUsers: [],
     filteredUsers: [],
+    searchQuery: "",
     sorting: {
       type: SORTING_TYPES.NONE,
       order: SORTING_ORDERS.NONE,
@@ -23,34 +24,60 @@ export default new Vuex.Store({
       usersAPI
         .getUsers()
         .then((users) => {
-          state.initialUsers = users;
-          state.sortedUsers = users;
+          state.initialUsers = [...users];
+          state.sortedUsers = [...users];
         })
         .catch((err) => console.log(err));
     },
     searchUsers(state, payload) {
-      const formattedQuery = payload.searchQuery.toLowerCase();
+      const formattedSearchQuery = payload.searchQuery.trim().toLowerCase();
 
-      state.filteredUsers = state.initialUsers.filter((user) => {
+      state.filteredUsers = state.sortedUsers.filter((user) => {
         const name = user.username.toLowerCase();
         const email = user.email.toLowerCase();
 
         return (
-          name.indexOf(formattedQuery) !== -1 ||
-          email.indexOf(formattedQuery) !== -1
+          name.indexOf(formattedSearchQuery) !== -1 ||
+          email.indexOf(formattedSearchQuery) !== -1
         );
       });
     },
     sortUsers(state, payload) {
-      state.sortedUsers = getSortedUsers(state.initialUsers, payload.sorting);
-      console.log("here");
-      state.filteredUsers = getSortedUsers(
-        state.filteredUsers,
+      state.sortedUsers = getSortedUsers(
+        [...state.initialUsers],
         payload.sorting
       );
+
+      this.commit({
+        type: "searchUsers",
+        searchQuery: state.searchQuery,
+      });
+    },
+    deleteUser(state, payload) {
+      state.initialUsers = state.initialUsers.filter(
+        (user) => user.id !== payload.userId
+      );
+      state.sortedUsers = state.sortedUsers.filter(
+        (user) => user.id !== payload.userId
+      );
+      state.filteredUsers = state.filteredUsers.filter(
+        (user) => user.id !== payload.userId
+      );
+    },
+    setSearchQuery(state, payload) {
+      state.searchQuery = payload.searchQuery;
     },
     setSorting(state, payload) {
       state.sorting = payload.sorting;
+    },
+    clearFilters(state) {
+      state.searchQuery = "";
+      state.sorting = {
+        type: SORTING_TYPES.NONE,
+        order: SORTING_ORDERS.NONE,
+      };
+      state.filteredUsers = [];
+      state.sortedUsers = [...state.initialUsers];
     },
   },
   actions: {

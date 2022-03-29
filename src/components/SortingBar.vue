@@ -3,13 +3,23 @@
     <p class="title">Сортировка:</p>
     <ul class="list">
       <li>
-        <label>
+        <label
+          class="label"
+          :class="{
+            label_selected: isRegiserDateSortingActive,
+          }"
+        >
           <button @click="sortUsersByRegisterDate" />
           Дата регистрации
         </label>
       </li>
       <li>
-        <label>
+        <label
+          class="label"
+          :class="{
+            label_selected: isRatingSortingActive,
+          }"
+        >
           <button @click="sortUsersByRating" />
           Рейтинг
         </label>
@@ -27,6 +37,12 @@ export default {
   computed: {
     currentSorting() {
       return this.$store.state.sorting;
+    },
+    isRegiserDateSortingActive() {
+      return this.currentSorting.type === SORTING_TYPES.REGISTER_DATE;
+    },
+    isRatingSortingActive() {
+      return this.currentSorting.type === SORTING_TYPES.RATING;
     },
   },
   methods: {
@@ -81,5 +97,9 @@ export default {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.label_selected {
+  font-weight: 900;
 }
 </style>
