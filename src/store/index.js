@@ -6,6 +6,7 @@ Vue.use(Vuex);
 Vue.config.devtools = true;
 
 export default new Vuex.Store({
+  strict: true,
   modules: {
     users: usersModule,
   },

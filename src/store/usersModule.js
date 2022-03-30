@@ -33,16 +33,11 @@ export const usersModule = {
     },
   },
   mutations: {
-    getUsers(state) {
-      usersAPI
-        .getUsers()
-        .then((users) => {
-          for (let user of users) {
-            state.initialUsers.push(normalizeUser(user));
-            state.sortedUsers.push(normalizeUser(user));
-          }
-        })
-        .catch((err) => console.log(err));
+    setUsers(state, payload) {
+      for (let user of payload.users) {
+        state.initialUsers.push(normalizeUser(user));
+        state.sortedUsers.push(normalizeUser(user));
+      }
     },
     searchUsers(state, payload) {
       const formattedSearchQuery = payload.searchQuery.trim().toLowerCase();
@@ -100,7 +95,12 @@ export const usersModule = {
   },
   actions: {
     getUsers(context) {
-      context.commit({ type: "getUsers" });
+      usersAPI
+        .getUsers()
+        .then((users) => {
+          context.commit({ type: "setUsers", users: users });
+        })
+        .catch((err) => console.log(err));
     },
   },
 };
