@@ -14,13 +14,16 @@
 
 <script>
 export default {
-  name: "UsersPagesBar",
+  name: "UsersSectionPagesBar",
   computed: {
     pagesCount() {
       return this.$store.getters.tablePagesCount;
     },
     currentPage() {
       return this.$store.state.users.tablePage;
+    },
+    isSearching() {
+      return this.$store.getters.isSearching;
     },
   },
   methods: {
@@ -29,6 +32,14 @@ export default {
         type: "setTablePage",
         page: targetPage,
       });
+    },
+  },
+  watch: {
+    pagesCount(value) {
+      if (this.currentPage > value) this.handlePageSwitching(value || 1);
+    },
+    isSearching(value) {
+      if (value) this.handlePageSwitching(1);
     },
   },
 };

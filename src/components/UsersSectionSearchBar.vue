@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "SearchBar",
+  name: "UsersSectionSearchBar",
   data() {
     return {
       searchQuery: "",

@@ -1,26 +1,34 @@
 <template>
   <section>
-    <h1>Список пользователей</h1>
-    <search-bar />
-    <sorting-bar />
-    <users-table />
-    <users-pages-bar />
+    <h1>{{ sectionData.caption }}</h1>
+    <users-section-search-bar />
+    <users-section-sorting-bar />
+    <users-section-table />
+    <users-section-pages-bar />
   </section>
 </template>
 
 <script>
-import SearchBar from "./SearchBar.vue";
-import SortingBar from "./SortingBar.vue";
-import UsersTable from "./UsersTable.vue";
-import UsersPagesBar from "./UsersPagesBar.vue";
+import { USERS_SECTION_HEADINGS } from "@/constants";
+import UsersSectionSearchBar from "./UsersSectionSearchBar.vue";
+import UsersSectionSortingBar from "./UsersSectionSortingBar.vue";
+import UsersSectionTable from "./UsersSectionTable.vue";
+import UsersSectionPagesBar from "./UsersSectionPagesBar.vue";
 
 export default {
   name: "UsersSection",
   components: {
-    SearchBar,
-    SortingBar,
-    UsersTable,
-    UsersPagesBar,
+    UsersSectionSearchBar,
+    UsersSectionSortingBar,
+    UsersSectionTable,
+    UsersSectionPagesBar,
+  },
+  computed: {
+    sectionData() {
+      return {
+        caption: USERS_SECTION_HEADINGS.CAPTION,
+      };
+    },
   },
   created() {
     this.$store.dispatch("getUsers");

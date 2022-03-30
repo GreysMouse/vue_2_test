@@ -1,8 +1,9 @@
-import { USERS_TABLE_PAGINATION_STEP } from "../config";
+import { USERS_TABLE_PAGINATION_STEP, USER_DATA } from "../config";
 import { SORTING_ORDERS, SORTING_TYPES } from "../constants";
 import { usersAPI } from "../utils/APIs/usersAPI";
 import { getSortedUsers } from "../utils/features/getSortedUsers";
-import { getUsersTablePagesCount } from "../utils/features/getTablePagesCount";
+import { getUsersTablePagesCount } from "../utils/features/getUsersTablePagesCount";
+import { normalizeUser } from "../utils/features/normalizeUser";
 
 export const usersModule = {
   state() {
@@ -27,14 +28,19 @@ export const usersModule = {
         USERS_TABLE_PAGINATION_STEP
       );
     },
+    isSearching(state) {
+      return !!state.searchQuery;
+    },
   },
   mutations: {
     getUsers(state) {
       usersAPI
         .getUsers()
         .then((users) => {
-          state.initialUsers = [...users];
-          state.sortedUsers = [...users];
+          for (let user of users) {
+            state.initialUsers.push(normalizeUser(user));
+            state.sortedUsers.push(normalizeUser(user));
+          }
         })
         .catch((err) => console.log(err));
     },
@@ -42,16 +48,14 @@ export const usersModule = {
       const formattedSearchQuery = payload.searchQuery.trim().toLowerCase();
 
       state.filteredUsers = state.sortedUsers.filter((user) => {
-        const name = user.username.toLowerCase();
-        const email = user.email.toLowerCase();
+        const name = user[USER_DATA.NAME].toLowerCase();
+        const email = user[USER_DATA.EMAIL].toLowerCase();
 
         return (
           name.indexOf(formattedSearchQuery) !== -1 ||
           email.indexOf(formattedSearchQuery) !== -1
         );
       });
-
-      state.tablePage = 1;
     },
     sortUsers(state, payload) {
       state.sortedUsers = getSortedUsers(
@@ -66,13 +70,13 @@ export const usersModule = {
     },
     deleteUser(state, payload) {
       state.initialUsers = state.initialUsers.filter(
-        (user) => user.id !== payload.userId
+        (user) => user[USER_DATA.ID] !== payload.userId
       );
       state.sortedUsers = state.sortedUsers.filter(
-        (user) => user.id !== payload.userId
+        (user) => user[USER_DATA.ID] !== payload.userId
       );
       state.filteredUsers = state.filteredUsers.filter(
-        (user) => user.id !== payload.userId
+        (user) => user[USER_DATA.ID] !== payload.userId
       );
     },
     setSearchQuery(state, payload) {
